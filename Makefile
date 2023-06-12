@@ -1,0 +1,2 @@
+all:
+	g++-12 ter.cpp -O3 -o ter -I /Library/Frameworks/SDL2.framework/Headers -F /Library/Frameworks -framework SDL2 -I /Library/Frameworks/SDL2_image.framework/Headers -F /Library/Frameworks -I /Library/Frameworks/SDL2_ttf.framework/Headers -F /Library/Frameworks -framework SDL2_ttf  -framework SDL2_image -fopenmp -std=c++11
