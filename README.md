@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/marko1olo/gigahrush/main/docs/pixel_banner.jpg" width="100%" alt="Politic Sim Banner"/>
+<img src="https://raw.githubusercontent.com/marko1olo/gigahrush/main/docs/banner_politic_sim.jpg" width="100%" alt="Politic Sim Banner"/>
 
 # 🗳️ POLITIC_SIM — Terminal Political Strategy Simulator
 
