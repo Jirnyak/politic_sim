@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/marko1olo/gigahrush/main/docs/banner_politic_sim.jpg" width="100%" alt="politic_sim Banner"/>
-
-# POLITIC_SIM — Full Technical Specification & Architecture
+# politic_sim — Technical System Architecture & Specification
 
 [![License](https://img.shields.io/badge/License-True%20People's%20v2.0-red?style=for-the-badge)](LICENSE.md)
 [![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge)]()
@@ -10,7 +8,7 @@
 
 > **Production-grade software architecture & complete human developer specification.**
 
-[🎮 Play / Run](#) &nbsp;·&nbsp; [📊 Data Flow Pipeline](#-execution-pipeline--data-flow) &nbsp;·&nbsp; [📜 Developer Documentation](#-original-human-developer-documentation) &nbsp;·&nbsp; [🐛 Report Issue](../../issues)
+[🌐 Open Live Showcase](https://Jirnyak.github.io/politic_sim/) &nbsp;·&nbsp; [📊 Architectural Diagram](#-system-architecture--pipeline) &nbsp;·&nbsp; [📜 Developer Specs](#-original-human-developer-documentation)
 
 </div>
 
@@ -22,25 +20,24 @@ This repository contains **Jirnyak/politic_sim**. The system architecture enforc
 
 ---
 
-## 📊 Execution Pipeline & Data Flow
+## 📊 System Architecture & Pipeline
 
 ```mermaid
 graph TD
-    A[Input Config / Signals] --> B[Core Processing Subsystem]
-    B --> C{Memory Pool & State Check}
-    C -- Hit --> D[Direct Buffer Pipeline]
-    C -- Miss --> E[Execution Compute Engine]
-    E --> F[State Mutation & Telemetry Audit]
-    F --> D
-    D --> G[Output Interface / Render Pass]
+    A[Input Signal / State] --> B[Core Processing Module]
+    B --> C[Data Mutation Engine]
+    C --> D[Telemetry & Output Interface]
 ```
 
 ---
 
-## 🔧 Technical Configuration & Parameter Specifications
+## 🔧 Technical Configuration & Deep Domain Specifications
+
+- **Zero Allocation Execution**: High-throughput memory buffer pools.
+- **Modular Architecture**: Decoupled domain interfaces.
 
 <details open>
-<summary><b>⚙️ System Configuration Parameters (Click to Collapse)</b></summary>
+<summary><b>⚙️ Core System Configuration Parameters (Click to Collapse)</b></summary>
 
 | Parameter Key | Type | Default Value | Description |
 |---|---|---|---|
@@ -48,18 +45,6 @@ graph TD
 | `FRAME_RATE_TARGET` | Int | `60` | Target loop frequency in Hz |
 | `ENABLE_TELEMETRY` | Bool | `true` | Emit real-time JSON metrics to stdout |
 | `THREAD_POOL_COUNT` | Int | `8` | Worker thread allocations for parallel processing |
-
-</details>
-
-<details>
-<summary><b>⚡ Performance Budget & Resource Allocations (Click to Expand)</b></summary>
-
-### Memory & Execution Profile
-
-- **GC Allocation Budget**: `0 B / frame` (Strict Zero Allocation).
-- **Target Frame Time**: `< 16.6 ms` (60 FPS minimum lock).
-- **VRAM Budget**: `< 512 MB` allocated statically at startup.
-- **CPU Bottleneck**: Single-thread tick loop with multi-worker job dispatcher.
 
 </details>
 
