@@ -3,32 +3,501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>politic_sim — Official Technical Showcase</title>
-    <meta name="description" content="Multi-agent political economy and election dynamics simulator.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Politic Sim - Grand Strategy</title>
     <style>
-        :root { --bg: #0f172a; --accent: #38bdf8; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: var(--bg); color: #f1f5f9; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; overflow-x: hidden; }
-        .hero-box { max-width: 900px; width: 100%; text-align: center; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 3rem 2rem; backdrop-filter: blur(10px); box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 30px var(--accent); }
-        h1 { font-size: 3.5rem; font-weight: 900; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; text-shadow: 0 0 20px var(--accent); }
-        .tag { display: inline-block; background: rgba(255,255,255,0.05); border: 1px solid var(--accent); color: var(--accent); font-weight: 700; padding: 0.4rem 1.2rem; border-radius: 4px; font-size: 0.85rem; margin-bottom: 1.5rem; letter-spacing: 1px; }
-        p.desc { font-size: 1.2rem; color: #94a3b8; max-width: 700px; margin: 0 auto 2.5rem; line-height: 1.6; }
-        .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn { padding: 1rem 2.2rem; background: var(--accent); color: #000; font-weight: 700; text-decoration: none; border-radius: 6px; font-size: 1rem; transition: all 0.3s; text-transform: uppercase; }
-        .btn:hover { background: #fff; box-shadow: 0 0 30px #fff; transform: translateY(-2px); }
-        .btn-sec { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-sec:hover { background: rgba(255,255,255,0.1); }
+        :root {
+            --bg-color: #0b0f19;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --glass-bg: rgba(15, 23, 42, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.1), transparent 25%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Map Background */
+        .world-map-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.15;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg') no-repeat center center;
+            background-size: cover;
+            filter: invert(1) hue-rotate(180deg) brightness(1.5);
+        }
+
+        /* Glassmorphism utility */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px transparent;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Main Dashboard */
+        main {
+            padding: 3rem;
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Sidebar Panels */
+        .panel {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: slideUp 0.8s ease backwards;
+        }
+        
+        .panel-left { animation-delay: 0.1s; }
+        .panel-center { animation-delay: 0.3s; }
+        .panel-right { animation-delay: 0.5s; }
+
+        .panel-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Widgets */
+        .widget {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .widget:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .stat-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .value-up { color: var(--success); }
+        .value-down { color: var(--danger); }
+
+        /* Progress Bars */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 3px;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .pb-danger { background: var(--danger); box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+        .pb-success { background: var(--success); box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+
+        /* Center Content (Map focus) */
+        .center-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--text-secondary);
+        }
+
+        /* News Ticker */
+        .ticker-wrap {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(11, 15, 25, 0.9);
+            border-top: 1px solid var(--glass-border);
+            height: 40px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .ticker-heading {
+            background: var(--accent);
+            color: white;
+            padding: 0 1.5rem;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: ticker 30s linear infinite;
+        }
+
+        .ticker-item {
+            display: inline-block;
+            padding: 0 2rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .ticker-item span {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .alert-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+            .panel {
+                max-width: 600px;
+                margin: 0 auto;
+                width: 100%;
+            }
+            .center-stage {
+                order: -1;
+                margin-bottom: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="hero-box">
-        <h1>politic_sim</h1>
-        <div class="tag">MACROECONOMIC & POLITICAL SIMULATOR</div>
-        <p class="desc">Multi-agent political economy and election dynamics simulator.</p>
-        <div class="btn-group">
-            <a href="https://github.com/Jirnyak/politic_sim" class="btn" target="_blank">🚀 Open GitHub Repo</a>
-            <a href="https://github.com/Jirnyak/politic_sim#readme" class="btn btn-sec" target="_blank">📖 Read Spec</a>
+    <div class="world-map-bg"></div>
+    
+    <header>
+        <div class="logo">
+            <div class="logo-icon"></div>
+            Politic Sim
+        </div>
+        <nav>
+            <a href="#">Dashboard</a>
+            <a href="#">Economy</a>
+            <a href="#">Diplomacy</a>
+            <a href="#">Military</a>
+        </nav>
+        <button class="btn-primary">Connect Nation</button>
+    </header>
+
+    <main>
+        <!-- Left Sidebar: Global Stats -->
+        <aside class="panel glass panel-left">
+            <div class="panel-title">Global Indices</div>
+            
+            <div class="widget">
+                <div class="stat-row">
+                    <span class="stat-label">Global Tension</span>
+                    <span class="stat-value value-down">High (78%)</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar pb-danger" style="width: 78%"></div>
+                </div>
+            </div>
+
+            <div class="widget">
+                <div class="stat-row">
+                    <span class="stat-label">Economic Growth</span>
+                    <span class="stat-value value-up">+2.4%</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar pb-success" style="width: 45%"></div>
+                </div>
+            </div>
+
+            <div class="panel-title" style="margin-top: 1rem;">Active Crises</div>
+            
+            <div class="widget">
+                <div class="stat-row">
+                    <span class="stat-label"><span class="alert-dot"></span>Eastern Europe Border Clash</span>
+                </div>
+                <div class="stat-row" style="margin-top: 0.5rem">
+                    <span class="stat-label" style="font-size: 0.8rem">Severity: Level 4</span>
+                    <span class="stat-value" style="font-size: 0.8rem">Escalating</span>
+                </div>
+            </div>
+            
+            <div class="widget">
+                <div class="stat-row">
+                    <span class="stat-label"><span class="alert-dot"></span>Trade Embargo: Sector 7</span>
+                </div>
+                <div class="stat-row" style="margin-top: 0.5rem">
+                    <span class="stat-label" style="font-size: 0.8rem">Severity: Level 2</span>
+                    <span class="stat-value" style="font-size: 0.8rem">Stable</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center: Hero / Map Focus -->
+        <section class="center-stage panel-center">
+            <h1>Master the World Stage</h1>
+            <p class="subtitle">A definitive grand strategy simulation. Shape policies, manage economies, build alliances, and navigate the complex web of global geopolitics in real-time.</p>
+            <div class="hero-actions">
+                <button class="btn-primary">Start New Campaign</button>
+                <button class="btn-outline">View Global Rankings</button>
+            </div>
+            
+            <div style="margin-top: 4rem; opacity: 0.6;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <p style="font-size: 0.8rem; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 2px;">Simulation Active</p>
+            </div>
+        </section>
+
+        <!-- Right Sidebar: Nation Stats -->
+        <aside class="panel glass panel-right">
+            <div class="panel-title">Your Nation Overview</div>
+            
+            <div class="widget">
+                <div class="stat-row">
+                    <span class="stat-label">GDP</span>
+                    <span class="stat-value">$14.2 Trillion</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Treasury</span>
+                    <span class="stat-value value-up">+$450B/yr</span>
+                </div>
+            </div>
+
+            <div class="widget">
+                <div class="stat-row">
+                    <span class="stat-label">Approval Rating</span>
+                    <span class="stat-value">64%</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 64%"></div>
+                </div>
+            </div>
+            
+            <div class="panel-title" style="margin-top: 1rem;">Policy Directives</div>
+            
+            <div class="widget">
+                <div class="stat-row">
+                    <span class="stat-label">Tech Investment</span>
+                    <span class="stat-value" style="font-size: 0.9rem">Active</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Military Expansion</span>
+                    <span class="stat-value" style="font-size: 0.9rem; color: var(--text-secondary)">Pending Council</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Green Energy Subsidy</span>
+                    <span class="stat-value value-up" style="font-size: 0.9rem">Passed</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Footer News Ticker -->
+    <div class="ticker-wrap">
+        <div class="ticker-heading">LATEST INTEL</div>
+        <div class="ticker">
+            <div class="ticker-item"><span>BREAKING:</span> Coalition forces conduct joint exercises in the Pacific.</div>
+            <div class="ticker-item"><span>ECONOMY:</span> Global tech sector sees 4% dip amid semiconductor shortages.</div>
+            <div class="ticker-item"><span>DIPLOMACY:</span> Historic peace treaty signed in Geneva, ending 5-year dispute.</div>
+            <div class="ticker-item"><span>TECH:</span> New quantum computing breakthrough announced by leading research institute.</div>
+            <div class="ticker-item"><span>CLIMATE:</span> Historic low emissions reported for Q3 following green initiatives.</div>
         </div>
     </div>
 </body>
