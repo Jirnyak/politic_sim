@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://jirnyak.github.io/politic_sim/sitemap.xml
+Sitemap: https://Jirnyak.github.io/politic_sim/sitemap.xml
