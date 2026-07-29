@@ -1,5 +1,8 @@
 <div align="center">
 
+![POLITIC_SIM Banner](https://raw.githubusercontent.com/marko1olo/gigahrush/main/docs/banner_politic_sim.jpg)
+
+
 # politic_sim — Technical System Architecture & Specification
 
 [![License](https://img.shields.io/badge/License-True%20People's%20v2.0-red?style=for-the-badge)](LICENSE.md)
