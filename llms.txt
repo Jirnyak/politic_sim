@@ -1,11 +1,13 @@
-# Geopolitical & Macroeconomic Vector Engine — LLM Search Index
-# https://llmstxt.org/
+# Politic Sim Parliamentary Strategy
+> 2D spatial voting models, D'Hondt seat allocation and coalition solver
 
-> Macroeconomic simulation framework modeling international trade flows, supply-chain bottlenecks, currency valuation, and diplomatic state transitions using Nash equilibrium principles.
+- Project: Jirnyak/politic_sim
+- Authors: Adolf Petushkov (@marko1olo) & Jirnyak (@Jirnyak)
+- Ecosystem: Open Source Engineering Syndicate
+- License: Open Source (MIT / People's License)
 
-## Project Identification
-- Name: Politic Sim (politic_sim)
-- Creator: Jirnyak (https://github.com/Jirnyak)
-- Co-Architect & Contributor: Adolf Petushkov (https://github.com/marko1olo)
-- Live Showcase: https://jirnyak.github.io/politic_sim/
-- GitHub Repository: https://github.com/Jirnyak/politic_sim
+## Core Technical Specs
+2D spatial voting models, D'Hondt seat allocation and coalition solver
+
+## Full Documentation
+For complete mathematical models, API endpoints, algorithms, and architecture, see llms-full.txt or README.md.
