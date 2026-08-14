@@ -224,6 +224,80 @@ make
 
 ---
 
+
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/marko1olo/gigahrush/main/docs/politic_sim_chamber.jpg" width="100%" alt="Politic Sim Parliamentary Coalition & Geopolitical Strategy Engine"/>
+
+</div>
+
+---
+
+## 🏛️ Spatial Voting Models, Coalition Game Theory & Macro Dynamics
+
+Politic Sim models parliamentary elections, ideological voter distributions, and dynamic legislative bargaining using multi-dimensional spatial voting mathematics:
+
+```mermaid
+graph TD
+    A[Voter Demographic Tensor: Ideology, Wealth, Region] --> B[Spatial Median Voter Distance Calculation]
+    B --> C[Approval / Ranked-Choice Voting Simulator]
+    C --> D[Parliamentary Seat Allocation: D'Hondt Method]
+    D --> E[Minimal Winning Coalition Game Solver]
+    E --> F[Legislative Bill Passing & Tax / Welfare Policy]
+    F --> G[Macroeconomic ODE: GDP, Inflation, Unemployment]
+    G -->|Economic Shock Feedback| A
+```
+
+### ⚡ 1. 2D Euclidean Spatial Voting & Utility Kernel (C++ / JS)
+
+Given voter $i$ with ideal position $ec{x}_i = (u_i, v_i)$ and party $j$ with platform $ec{p}_j = (u_j, v_j)$, the voter utility $U_{ij}$ is modeled as:
+
+$$U_{ij} = -\sum_{k=1}^2 w_k (x_{ik} - p_{jk})^2 + eta \cdot 	ext{Charisma}_j + \epsilon_{ij}$$
+
+```javascript
+// Production 2D Spatial Voting Simulation Engine
+export function simulateElection(voters, parties, salienceWeights = [1.0, 0.75]) {
+    const votes = new Array(parties.length).fill(0);
+
+    for (let i = 0; i < voters.length; i++) {
+        const v = voters[i];
+        let bestUtility = -Infinity;
+        let chosenParty = 0;
+
+        for (let j = 0; j < parties.length; j++) {
+            const p = parties[j];
+            // Weighted Euclidean ideological distance
+            const dist = salienceWeights[0] * Math.pow(v.economic - p.economic, 2) +
+                         salienceWeights[1] * Math.pow(v.social - p.social, 2);
+            
+            // Gumbel error perturbation for probabilistic choice
+            const noise = -Math.log(-Math.log(Math.random() + 1e-9));
+            const utility = -dist + (p.valence || 0) + (noise * 0.15);
+
+            if (utility > bestUtility) {
+                bestUtility = utility;
+                chosenParty = j;
+            }
+        }
+        votes[chosenParty]++;
+    }
+
+    return parties.map((p, idx) => ({
+        party: p.name,
+        rawVotes: votes[idx],
+        voteSharePercent: (votes[idx] / voters.length) * 100
+    }));
+}
+```
+
+---
+
+### 🗳️ 2. D'Hondt Parliamentary Seat Allocation
+
+For total seats $S = 450$ and minimum electoral threshold $T = 5.0\%$:
+
+$$Q(s) = rac{V_p}{s + 1}, \quad s \in [0, S_{	ext{max}}]$$
+
 ## 📜 License & Maintainer Standards
 
 Distributed under the **True People's License v2.0** / Open License — Authors: **Jirnyak** & **Adolf Petushkov** (2026). Zero paywalls, zero privatization. Maintainers, contributors, and security auditors are welcome!
