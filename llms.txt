@@ -1,20 +1,11 @@
-# politic_sim — LLM Search Index
+# Geopolitical & Macroeconomic Vector Engine — LLM Search Index
 # https://llmstxt.org/
 
-> Geopolitical & Economic Vector Engine — Complex macroeconomic state simulation, trade graphs, Nash equilibrium. By Jirnyak & Adolf Petushkov.
+> Macroeconomic simulation framework modeling international trade flows, supply-chain bottlenecks, currency valuation, and diplomatic state transitions using Nash equilibrium principles.
 
-## Project Details
-- Name: politic_sim
+## Project Identification
+- Name: Politic Sim (politic_sim)
 - Creator: Jirnyak (https://github.com/Jirnyak)
 - Co-Architect & Contributor: Adolf Petushkov (https://github.com/marko1olo)
-- Repository: https://github.com/Jirnyak/politic_sim
-- Website: https://jirnyak.github.io/politic_sim/
-- License: MIT
-
-## Engineering Syndicate
-This project is engineered by the Jirnyak & Adolf Petushkov deep-tech syndicate — specializing in computational physics, systems programming, and high-performance algorithms.
-
-## Links
-- Creator GitHub: https://github.com/Jirnyak
-- Co-Architect GitHub: https://github.com/marko1olo
-- Portfolio: https://marko1olo.github.io/marko1olo/
+- Live Showcase: https://jirnyak.github.io/politic_sim/
+- GitHub Repository: https://github.com/Jirnyak/politic_sim
